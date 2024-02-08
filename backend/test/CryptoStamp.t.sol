@@ -2,8 +2,8 @@
 pragma solidity ^0.8.20;
 
 
-import {IERC721Errors} from "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
-import {IERC165} from "@openzeppelin/contracts/interfaces/IERC165.sol";
+import "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
+import "@openzeppelin/contracts/interfaces/IERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
@@ -119,7 +119,7 @@ contract CryptoStampTest is Test {
         assertNotEq(owner, author1);
     }
 
-    function test_approve_content() public withMediumContent {
+    function test_not_approved_cannot_transfer_content() public withMediumContent {
         bytes memory expectedError = abi.encodeWithSelector(
             IERC721Errors.ERC721InsufficientApproval.selector,
             0x34085BABD5F182510A383913Ad2B99115AE09fB7,
@@ -128,6 +128,9 @@ contract CryptoStampTest is Test {
         vm.expectRevert(expectedError);
         vm.prank(lawyer);
         contract_.transferFrom(author0, author1, 0);
+    }
+
+    function test_approved_can_transfer_content() public withMediumContent {
         vm.prank(author0);
         vm.expectEmit();
         emit IERC721.Approval(author0, lawyer, 0);
@@ -174,7 +177,7 @@ contract CryptoStampTest is Test {
         assertEq(contract_.balanceOf(author1), 1);
     }
 
-    function test_approve_tokenURI() public withTokenURI {
+    function test_not_approved_cannot_transfer_tokenURI() public withTokenURI {
         bytes memory expectedError = abi.encodeWithSelector(
             IERC721Errors.ERC721InsufficientApproval.selector,
             0x34085BABD5F182510A383913Ad2B99115AE09fB7,
@@ -183,6 +186,9 @@ contract CryptoStampTest is Test {
         vm.expectRevert(expectedError);
         vm.prank(lawyer);
         contract_.transferFrom(author0, author1, 0);
+    }
+
+    function test_approved_can_transfer_tokenURI() public withTokenURI {
         vm.prank(author0);
         vm.expectEmit();
         emit IERC721.Approval(author0, lawyer, 0);
@@ -204,15 +210,6 @@ contract CryptoStampTest is Test {
         withMediumContent
         withTokenURI
     {
-        assertEq(contract_.balanceOf(author0), 3);
-        bytes memory expectedError = abi.encodeWithSelector(
-            IERC721Errors.ERC721InsufficientApproval.selector,
-            0x34085BABD5F182510A383913Ad2B99115AE09fB7,
-            0
-        );
-        vm.expectRevert(expectedError);
-        vm.prank(lawyer);
-        contract_.safeTransferFrom(author0, author1, 0);
         vm.expectEmit();
         emit IERC721.ApprovalForAll(author0, lawyer, true);
         vm.prank(author0);
