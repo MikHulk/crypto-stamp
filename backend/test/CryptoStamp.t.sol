@@ -297,4 +297,115 @@ contract CryptoStampTest is Test {
         vm.expectRevert(expectedError);
         contract_.content(3);
     }
+
+    function test_derive_tokenURI_from_uri()
+        public
+        withTokenURI
+    {
+        vm.prank(author0);
+        uint256 tokenId = contract_.deriveTokenURI(
+            1,
+            author1,
+            "https://test.example/item-id-8u5h2m.png"
+        );
+        address owner = contract_.ownerOf(tokenId);
+        assertEq(owner, author1);
+        assertNotEq(owner, author0);
+        assertNotEq(owner, user1);
+    }
+
+    function test_derive_tokenText_from_uri()
+        public
+        withTokenURI
+    {
+        vm.prank(author0);
+        uint256 tokenId = contract_.deriveTokenText(
+            1,
+            author1,
+            mediumContent
+        );
+        address owner = contract_.ownerOf(tokenId);
+        assertEq(owner, author1);
+        assertNotEq(owner, author0);
+        assertNotEq(owner, user1);
+    }
+
+    function test_derive_tokenURI_from_text()
+        public
+        withMediumContent
+    {
+        vm.prank(author0);
+        uint256 tokenId = contract_.deriveTokenURI(
+            1,
+            author1,
+            "https://test.example/item-id-8u5h2m.png"
+        );
+        address owner = contract_.ownerOf(tokenId);
+        assertEq(owner, author1);
+        assertNotEq(owner, author0);
+        assertNotEq(owner, user1);
+    }
+
+    function test_derive_tokenText_from_text()
+        public
+        withMediumContent
+    {
+        vm.prank(author0);
+        uint256 tokenId = contract_.deriveTokenText(
+            1,
+            author1,
+            mediumContent
+        );
+        address owner = contract_.ownerOf(tokenId);
+        assertEq(owner, author1);
+        assertNotEq(owner, author0);
+        assertNotEq(owner, user1);
+    }
+
+    function test_derive_tokenText_too_long()
+        public
+        withTokenURI
+    {
+        vm.expectRevert("too long content");
+        vm.prank(author0);
+        contract_.deriveTokenText(
+            1,
+            author1,
+            longContent
+        );
+    }
+
+    function test_derive_tokenText_not_alowed()
+        public
+        withTokenURI
+    {
+        bytes memory expectedError = abi.encodeWithSelector(
+            IERC721Errors.ERC721InsufficientApproval.selector,
+            user1,
+            1
+        );
+        vm.expectRevert(expectedError);
+        vm.prank(user1);
+        contract_.deriveTokenText(
+            1,
+            author1,
+            shortContent
+        );
+    }
+
+    function test_derive_tokenText_no_token()
+        public
+    {
+        bytes memory expectedError = abi.encodeWithSelector(
+            IERC721Errors.ERC721NonexistentToken.selector,
+            1
+        );
+        vm.expectRevert(expectedError);
+        vm.prank(user1);
+        contract_.deriveTokenText(
+            1,
+            author1,
+            shortContent
+        );
+    }
 }

@@ -22,7 +22,8 @@ contract CryptoStamp is ERC721, ERC721URIStorage {
     
     uint256 private _currentTokenId;
     
-    mapping(uint256 tokenId => string) private _registry;
+    mapping(uint256 => string) private _registry;
+    mapping(uint256 => uint256) private _ancestors;
     
     constructor() ERC721("CryptoStamp", "STMP") {}
 
@@ -92,5 +93,30 @@ contract CryptoStamp is ERC721, ERC721URIStorage {
         }
         return Content({ parent: 0, contentType: contentType, value: value });
     }
-    
+
+    function deriveTokenText(uint256 parent, address recipient, string calldata _content)
+        public returns (uint256)
+    {
+        if (bytes(_content).length > 256)
+            revert("too long content");
+        address author = msg.sender;
+        _checkAuthorized(ownerOf(parent), author, parent);
+        uint256 newId = ++_currentTokenId;
+        _mint(recipient, newId);
+        _setText(newId, _content);
+        _ancestors[newId] = parent;
+        return newId;
+    }
+
+    function deriveTokenURI(uint256 parent, address recipient, string memory uri)
+        public returns (uint256)
+    {
+        address author = msg.sender;
+        _checkAuthorized(ownerOf(parent), author, parent);
+        uint256 newId = ++_currentTokenId;
+        _mint(recipient, newId);
+        _setTokenURI(newId, uri);
+        _ancestors[newId] = parent;
+        return newId;
+    }
 }
