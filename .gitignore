@@ -12,5 +12,7 @@ docs/
 
 # Dotenv file
 .env
-/lcov.info
-/report/
+
+# coverage outputs
+/backend/report/
+/backend/lcov.info

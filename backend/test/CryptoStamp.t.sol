@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 
 
 import {Test, console2} from "forge-std/Test.sol";
-import {CryptoStamp} from "../src/CryptoStamp.sol";
+import {CryptoStamp, Content, ContentType} from "../src/CryptoStamp.sol";
 
 
 contract CryptoStampTest is Test {
@@ -29,23 +29,25 @@ contract CryptoStampTest is Test {
         unicode"Le bruit de l'eau.\n";
     string longContent;
 
+    string testURI = "https://test.example/item-id-8u5h2m.png";
+
     modifier withShortContent() {
-        string memory content = mediumContent;
+        string memory content = shortContent;
         vm.prank(author0);
-        contract_.stampContent(content);
+        contract_.stampTextContent(content);
         _;
     }
 
     modifier withMediumContent() {
         string memory content = mediumContent;
         vm.prank(author0);
-        contract_.stampContent(content);
+        contract_.stampTextContent(content);
         _;
     }
 
     modifier withTokenURI() {
         vm.prank(author0);
-        contract_.stampURI("https://test.example/item-id-8u5h2m.png");
+        contract_.stampURI(testURI);
         _;
     }
 
@@ -69,83 +71,88 @@ contract CryptoStampTest is Test {
     function test_deposit_short_content() public {
         string memory content = shortContent;
         vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(content);
-        assertEq(tokenId, 0);
+        uint256 tokenId = contract_.stampTextContent(content);
+        assertEq(tokenId, 1);
     }
 
     function test_get_short_content() public {
         string memory content = shortContent;
         vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(content);
-        string memory contentFromRepo = contract_.content(tokenId);
+        uint256 tokenId = contract_.stampTextContent(content);
+        string memory contentFromRepo = contract_.tokenText(tokenId);
         assertEq(content, contentFromRepo);
     }
 
     function test_deposit_medium_content() public {
         string memory content = mediumContent;
         vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(content);
-        assertEq(tokenId, 0);
+        uint256 tokenId = contract_.stampTextContent(content);
+        assertEq(tokenId, 1);
     }
 
     function test_get_medium_content() public {
         string memory content = mediumContent;
         vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(content);
-        string memory contentFromRepo = contract_.content(tokenId);
+        uint256 tokenId = contract_.stampTextContent(content);
+        string memory contentFromRepo = contract_.tokenText(tokenId);
         assertEq(content, contentFromRepo);
     }
 
     function test_deposit_long_content() public {
         string memory content = longContent;
+        vm.expectRevert("too long content");
         vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(content);
-        assertEq(tokenId, 0);
+        contract_.stampTextContent(content);
     }
 
-    function test_get_long_content() public {
-        string memory content = longContent;
-        vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(content);
-        string memory contentFromRepo = contract_.content(tokenId);
-        assertEq(content, contentFromRepo);
+    function test_no_TokenText() public {
+        bytes memory expectedError = abi.encodeWithSelector(
+            IERC721Errors.ERC721NonexistentToken.selector,
+            1
+        );
+        vm.expectRevert(expectedError);
+        contract_.tokenText(1);
     }
 
-    function test_content_owner() public {
+    function test_textContent_owner() public {
         vm.prank(author0);
-        uint256 tokenId = contract_.stampContent(mediumContent);
+        uint256 tokenId = contract_.stampTextContent(mediumContent);
         address owner = contract_.ownerOf(tokenId);
         assertEq(owner, author0);
         assertNotEq(owner, author1);
     }
 
-    function test_not_approved_cannot_transfer_content() public withMediumContent {
+    function test_not_approved_cannot_transfer_textContent()
+        public withMediumContent
+    {
         bytes memory expectedError = abi.encodeWithSelector(
             IERC721Errors.ERC721InsufficientApproval.selector,
             0x34085BABD5F182510A383913Ad2B99115AE09fB7,
-            0
+            1
         );
         vm.expectRevert(expectedError);
         vm.prank(lawyer);
-        contract_.transferFrom(author0, author1, 0);
+        contract_.transferFrom(author0, author1, 1);
     }
 
-    function test_approved_can_transfer_content() public withMediumContent {
+    function test_approved_can_transfer_textContent()
+        public withMediumContent
+    {
         vm.prank(author0);
         vm.expectEmit();
-        emit IERC721.Approval(author0, lawyer, 0);
-        contract_.approve(lawyer, 0);
-        assertEq(contract_.getApproved(0), lawyer);
+        emit IERC721.Approval(author0, lawyer, 1);
+        contract_.approve(lawyer, 1);
+        assertEq(contract_.getApproved(1), lawyer);
         vm.prank(lawyer);
-        contract_.transferFrom(author0, author1, 0);
-        address owner = contract_.ownerOf(0);
+        contract_.transferFrom(author0, author1, 1);
+        address owner = contract_.ownerOf(1);
         assertEq(owner, author1);
-        assertEq(contract_.getApproved(0), address(0));
+        assertEq(contract_.getApproved(1), address(0));
     }
 
     function test_tokenURI_owner() public {
         vm.prank(author0);
-        uint256 tokenId = contract_.stampURI("https://test.example/item-id-8u5h2m.png");
+        uint256 tokenId = contract_.stampURI(testURI);
         address owner = contract_.ownerOf(tokenId);
         assertEq(owner, author0);
         assertNotEq(owner, author1);
@@ -159,20 +166,29 @@ contract CryptoStampTest is Test {
         assertEq(uri, tokenURI);
     }
 
+    function test_no_tokenURI() public {
+        bytes memory expectedError = abi.encodeWithSelector(
+            IERC721Errors.ERC721NonexistentToken.selector,
+            1
+        );
+        vm.expectRevert(expectedError);
+        contract_.tokenURI(1);
+    }
+
     function test_balanceOf() public {
         assertEq(contract_.balanceOf(author0), 0);
         assertEq(contract_.balanceOf(author1), 0);
-        string memory uri = "https://test.example/item-id-8u5h2m.png";
+        string memory uri = testURI;
         vm.prank(author0);
         uint256 tokenId = contract_.stampURI(uri);
         assertEq(contract_.balanceOf(author0), 1);
         string memory content = shortContent;
         vm.prank(author0);
-        tokenId = contract_.stampContent(content);
+        tokenId = contract_.stampTextContent(content);
         assertEq(contract_.balanceOf(author0), 2);
         string memory anotherContent = mediumContent;
         vm.prank(author1);
-        tokenId = contract_.stampContent(anotherContent);
+        tokenId = contract_.stampTextContent(anotherContent);
         assertEq(contract_.balanceOf(author0), 2);
         assertEq(contract_.balanceOf(author1), 1);
     }
@@ -181,25 +197,25 @@ contract CryptoStampTest is Test {
         bytes memory expectedError = abi.encodeWithSelector(
             IERC721Errors.ERC721InsufficientApproval.selector,
             0x34085BABD5F182510A383913Ad2B99115AE09fB7,
-            0
+            1
         );
         vm.expectRevert(expectedError);
         vm.prank(lawyer);
-        contract_.transferFrom(author0, author1, 0);
+        contract_.transferFrom(author0, author1, 1);
     }
 
     function test_approved_can_transfer_tokenURI() public withTokenURI {
         vm.prank(author0);
         vm.expectEmit();
-        emit IERC721.Approval(author0, lawyer, 0);
-        contract_.approve(lawyer, 0);
-        assertEq(contract_.getApproved(0), lawyer);
+        emit IERC721.Approval(author0, lawyer, 1);
+        contract_.approve(lawyer, 1);
+        assertEq(contract_.getApproved(1), lawyer);
         assertEq(contract_.balanceOf(author0), 1);
         vm.prank(lawyer);
-        contract_.transferFrom(author0, author1, 0);
-        address owner = contract_.ownerOf(0);
+        contract_.transferFrom(author0, author1, 1);
+        address owner = contract_.ownerOf(1);
         assertEq(owner, author1);
-        assertEq(contract_.getApproved(0), address(0));
+        assertEq(contract_.getApproved(1), address(0));
         assertEq(contract_.balanceOf(author0), 0);
         assertEq(contract_.balanceOf(author1), 1);
     }
@@ -210,39 +226,75 @@ contract CryptoStampTest is Test {
         withMediumContent
         withTokenURI
     {
+        // author0 approve lawyer for all
         vm.expectEmit();
         emit IERC721.ApprovalForAll(author0, lawyer, true);
         vm.prank(author0);
         contract_.setApprovalForAll(lawyer, true);
         assertTrue(contract_.isApprovedForAll(author0, lawyer));
-        assertEq(contract_.ownerOf(0), author0);
+        assertEq(contract_.ownerOf(1), author0);
+
+        // lawyer can transfer for author0
         vm.prank(lawyer);
         vm.expectEmit();
-        emit IERC721.Transfer(author0, author1, 0);
-        contract_.safeTransferFrom(author0, author1, 0);
-        address owner = contract_.ownerOf(0);
+        emit IERC721.Transfer(author0, author1, 1);
+        contract_.safeTransferFrom(author0, author1, 1);
+        address owner = contract_.ownerOf(1);
         assertEq(owner, author1);
-        assertEq(contract_.getApproved(0), address(0));
+        assertEq(contract_.getApproved(1), address(0));
         assertEq(contract_.balanceOf(author0), 2);
         assertEq(contract_.balanceOf(author1), 1);
+
+        // author0 approve user2
         vm.prank(author0);
         vm.expectEmit();
         emit IERC721.ApprovalForAll(author0, user2, true);
         contract_.setApprovalForAll(user2, true);
         assertTrue(contract_.isApprovedForAll(author0, lawyer));
         assertTrue(contract_.isApprovedForAll(author0, user2));
+
+        // lawyer can transfer for author0
         vm.prank(user2);
         vm.expectEmit();
-        emit IERC721.Transfer(author0, author1, 1);
-        contract_.safeTransferFrom(author0, author1, 1);
+        emit IERC721.Transfer(author0, author1, 2);
+        contract_.safeTransferFrom(author0, author1, 2);
+
+        // author0 remove lawyer approval
         vm.prank(author0);
         vm.expectEmit();
         emit IERC721.ApprovalForAll(author0, lawyer, false);
         contract_.setApprovalForAll(lawyer, false);
         assertFalse(contract_.isApprovedForAll(author0, lawyer));
+
+        // lawyer cannot transfer anymore
         vm.expectRevert();
         vm.prank(lawyer);
-        contract_.safeTransferFrom(author0, user2, 1);
+        contract_.safeTransferFrom(author0, user2, 2);
         assertTrue(contract_.isApprovedForAll(author0, user2));
+    }
+
+    function test_get_content()
+        public
+        withTokenURI
+        withShortContent
+    {
+        Content memory content;
+        
+        content = contract_.content(1);
+        assertEq(uint(content.contentType), uint(ContentType.URI));
+        assertEq(content.value, testURI);
+        assertEq(content.parent, 0);
+
+        content = contract_.content(2);
+        assertEq(uint(content.contentType), uint(ContentType.Text));
+        assertEq(content.value, shortContent);
+        assertEq(content.parent, 0);
+
+        bytes memory expectedError = abi.encodeWithSelector(
+            IERC721Errors.ERC721NonexistentToken.selector,
+            3
+        );
+        vm.expectRevert(expectedError);
+        contract_.content(3);
     }
 }
