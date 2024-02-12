@@ -27,7 +27,8 @@ const Home: NextPage = () => {
 
   function onSuccess(transacHash: `0x{string}`) {
     if(contentRef && contentRef.current) contentRef.current.value = "";
-    const transac = client.getTransactionReceipt({hash: transacHash}).then(buildMessage);
+    const transac = client.getTransactionReceipt({hash: transacHash})
+      .then(buildMessage, processTrError);
   }
 
   function buildMessage(transac: any) {
@@ -36,6 +37,11 @@ const Home: NextPage = () => {
       const tokenID = BigInt(transac.logs[0].topics[3]);
       setMessage([transac.transactionHash, "Token ID:" + tokenID.toString()]);
     } else setError([transac.transacHash, transac.status]);
+  }
+
+  function processTrError({name}: {name: string}) {
+    setWaitingTransaction(false);
+    setError([name]);
   }
 
   function processContent() {
@@ -53,7 +59,7 @@ const Home: NextPage = () => {
       if(content && content.length < 200) {
         setWaitingTransaction(true);
         stampTextContent(walletClient, content)
-          .then(onSuccess, e => setError(e.name));
+          .then(onSuccess, processTrError);
       } else setError(
         [
           "Your content is too big.", 
