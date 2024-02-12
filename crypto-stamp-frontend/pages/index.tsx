@@ -1,96 +1,19 @@
 import type { NextPage } from 'next';
-import { ReactNode, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import 
   { IconButton
   , Heading
   , HStack
   , Textarea
   , VStack
-  , Alert
-  , AlertIcon
-  , Box
-  , AlertTitle
-  , AlertDescription
-  , CloseButton,  
-  Spinner
+  , Spinner
 } from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
 import { usePublicClient, useWalletClient } from 'wagmi';
 
-import cryptoStampData from '@/contractData';
+import { stampTextContent } from '../lib/etherUtils';
+import { SuccessMessage, ErrorMessage } from '../components/feedback';
 
-
-async function stampContent(client: any, content: string): Promise<`0x{string}`>{
-  const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
-  const {abi} = cryptoStampData;
-  return await client?.writeContract(
-    {
-      address: contractAddress,
-      abi: abi,
-      account: client.account.address,
-      functionName: "stampTextContent",
-      args: [content],
-    }
-  );
-}
-
-function SuccessMessage(
-  {messages, onClose}: {messages: string[], onClose: () => void}) : ReactNode
-{
-  const messageNodes = messages.map(
-    (message: string, ind: number) => 
-      <AlertDescription key={ind}>{message}</AlertDescription>
-  )
-  return (
-    <Alert status='success' display="flex">
-      <VStack w="100%" align="start" gap={0}>
-        <HStack w="100%" justify="space-between">
-          <AlertIcon />
-          <AlertTitle fontSize="2xl">Sucess!</AlertTitle>
-          <CloseButton
-            alignSelf='flex-start'
-            position='relative'
-            right={-1}
-            top={-1}
-            onClick={onClose}
-          />
-        </HStack>
-        <VStack ml="4em" mr="4em" align="start" gap={0}>
-          {...messageNodes }
-        </VStack>
-      </VStack>
-    </Alert>
-  );
-}
-
-function ErrorMessage(
-  {messages, onClose } : {messages: string[], onClose: () => void}) : ReactNode
-{
-  const messageNodes = messages.map(
-    (message: string, ind: number) => 
-      <AlertDescription key={ind}>{message}</AlertDescription>
-  )
-  return (
-    <Alert status='error' display="flex">
-      <VStack w="100%" align="start" gap={0}>
-        <HStack w="100%" justify="space-between">
-          <AlertIcon />
-          <AlertTitle fontSize="2xl">Error!</AlertTitle>
-          <CloseButton
-            alignSelf='flex-start'
-            position='relative'
-            right={-1}
-            top={-1}
-            onClick={onClose}
-          />
-        </HStack>
-        <VStack ml="4em" mr="4em" align="start" gap={0}>
-          {...messageNodes }
-        </VStack>
-      </VStack>
-    </Alert>
-  );
-}
 
 const Home: NextPage = () => {
 
@@ -119,17 +42,24 @@ const Home: NextPage = () => {
     // @ts-ignore
     if (!walletClient) openConnectModal();
     if(contentRef !== null) {
-      let content = contentRef?.current?.value;
-      if(content) {
+      let content = contentRef?.current?.value 
+      if(!content || content.length === 0)
+        setError(
+          [
+            "Your content is empty.", 
+            "Please fill the text area with a content you want to protect."
+          ]
+        );
+      if(content && content.length < 200) {
         setWaitingTransaction(true);
-        stampContent(walletClient, content)
+        stampTextContent(walletClient, content)
           .then(onSuccess, e => setError(e.name));
       } else setError(
         [
-          "Your content is empty.", 
-          "Please fill the text area with a content you want to protect."
+          "Your content is too big.", 
+          "Please upload the document you want to protect on IPFS."
         ]
-      );
+      ); 
     }
   }
 
