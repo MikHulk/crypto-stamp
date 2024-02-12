@@ -56,7 +56,7 @@ const Home: NextPage = () => {
             "Please fill the text area with a content you want to protect."
           ]
         );
-      if(content && content.length < 200) {
+      else if(content && content.length < 200) {
         setWaitingTransaction(true);
         stampTextContent(walletClient, content)
           .then(onSuccess, processTrError);
