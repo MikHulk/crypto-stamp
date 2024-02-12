@@ -1,3 +1,4 @@
+import '../styles.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   ConnectButton,
