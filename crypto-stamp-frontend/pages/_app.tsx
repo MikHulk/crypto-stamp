@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <VStack 
                   ml="auto"
                   mr="auto"
-                  mt={1}
+                  mt={10}
                   p={5}
                   color="#cca8c4"
                   backgroundColor="gray.700"
