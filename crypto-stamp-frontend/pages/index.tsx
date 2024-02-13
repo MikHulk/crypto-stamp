@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import 
   { IconButton
   , Heading
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
 
   function onSuccess(transacHash: `0x{string}`) {
     if(contentRef && contentRef.current) contentRef.current.value = "";
-    const transac = client.getTransactionReceipt({hash: transacHash})
+    client.getTransactionReceipt({hash: transacHash})
       .then(buildMessage, processTrError);
   }
 
@@ -69,9 +69,14 @@ const Home: NextPage = () => {
     }
   }
 
+  useEffect(
+    () => isError ? setError(["error on wallet"]) : setError(null),
+    [isError]
+  );
+
   return (
     <>
-      { waitingTransaction && <Spinner color='red.500' /> }
+      { (isLoading || waitingTransaction) && <Spinner color='red.500' /> }
       { message && <SuccessMessage messages={message} onClose={() => setMessage(null)} />}
       { error && <ErrorMessage messages={error} onClose={() => setError(null)} />}
       <VStack align="left" justify="start" m={6} w="100%">
