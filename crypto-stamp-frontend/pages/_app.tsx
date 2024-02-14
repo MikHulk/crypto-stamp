@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   maxW={800}
                 >
                   <VStack mb={7}>
-                    <Heading textShadow="2px 1px 3px #ce3385" color="#c7497b">
+                    <Heading textShadow="2px 1px 7px #ce3385" color="#dd5f91">
                       CryptoStamp
                     </Heading>
                     <Heading as="i" size="md">

@@ -9,7 +9,7 @@ import
 
 import { CreateTextContentView } from './components/CreateTextContentView';
 import { CreateIPFSContentView } from './components/CreateIPFSContentView';
-
+import { buttonStyles } from '../lib/commonStyles';
 
 const Home: NextPage = () => {
   const [view, SetView] = useState(<CreateTextContentView />);
@@ -18,28 +18,16 @@ const Home: NextPage = () => {
       <Heading mt={5} size="md">So What'Cha Want?</Heading>
       <HStack w="100%" justify="space-evenly">
         <Button 
-          bgColor="rgb(188 122 148 / 42%)"
-          _hover={
-            { bgColor: "rgb(188 122 148 / 70%)" 
-            , boxShadow: '0 0 10px #ce3385'
-            , borderColor: '#ce3385'
-            }
-          }
+          {...buttonStyles}
           onClick={() => SetView(<CreateTextContentView />)}
         >
-          Store text in blockchain
+          Store text on blockchain
         </Button>
         <Button 
-          bgColor="rgb(188 122 148 / 42%)"
-          _hover={
-            { bgColor: "rgb(188 122 148 / 70%)" 
-            , boxShadow: '0 0 10px #ce3385'
-            , borderColor: '#ce3385'
-            }
-          }
+          {...buttonStyles}
           onClick={() => SetView(<CreateIPFSContentView />)}
         >
-          Store document in IPFS
+          Store document on IPFS
         </Button>
       </HStack>
       <Text>In any case your content will be protected with our special STMP Token</Text>

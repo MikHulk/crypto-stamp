@@ -32,7 +32,7 @@ export function CreateTextContentView(): ReactNode {
     setWaitingTransaction(false);
     if (transac.status === "success") {
       const tokenID = BigInt(transac.logs[0].topics[3]);
-      setMessage([transac.transactionHash, "Token ID:" + tokenID.toString()]);
+      setMessage([transac.transactionHash, "Token ID: " + tokenID.toString()]);
     } else setError([transac.transacHash, transac.status]);
   }
 
