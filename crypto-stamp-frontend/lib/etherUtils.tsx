@@ -2,6 +2,7 @@ import cryptoStampData from '@/contractData';
 
 export async function stampTextContent(client: any, content: string): Promise<`0x{string}`> {
   const contractAddress = process.env.NEXT_PUBLIC_CRYPTOSTAMP_ADDR;
+  if(!contractAddress) console.error("No contract address.");
   const { abi } = cryptoStampData;
   return await client?.writeContract(
     {
@@ -16,6 +17,7 @@ export async function stampTextContent(client: any, content: string): Promise<`0
 
 export async function stampURIContent(client: any, content: string): Promise<`0x{string}`> {
   const contractAddress = process.env.NEXT_PUBLIC_CRYPTOSTAMP_ADDR;
+  if(!contractAddress) console.error("No contract address.");
   const { abi } = cryptoStampData;
   return await client?.writeContract(
     {

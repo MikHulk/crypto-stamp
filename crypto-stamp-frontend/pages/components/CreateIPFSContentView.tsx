@@ -25,7 +25,7 @@ export function CreateIPFSContentView(): ReactNode {
   const { data: walletClient, isError, isLoading } = useWalletClient();
   const client = usePublicClient();
 
-  const [file, setFile] = useState<null|File>(null);
+  const [file, setFile] = useState<null | File>(null);
   const [fileContent, setFileContent] = useState<null|string>(null);
   const [cid, setCid] = useState<null|string>(null);
   
@@ -35,6 +35,11 @@ export function CreateIPFSContentView(): ReactNode {
 
   // @ts-ignore
   const apiKey: string = process.env.NEXT_PUBLIC_STORAGE_API_KEY;
+
+  useEffect(
+    () => (!apiKey) && console.error("no nft storage api key") || undefined,
+    []
+  );
 
   useEffect(
     () => isError ? setError(["error on wallet"]) : setError(null),
