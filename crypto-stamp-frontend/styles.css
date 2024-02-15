@@ -1,3 +1,14 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+html {
+    background-image: linear-gradient(rgba(3, 3, 51, 0.75), rgba(5, 4, 29, 1)), url("/static/images.jpg") !important;
+    background-size: cover;
+}
+
 body {
-    background-color: #171937 !important;
+    background: transparent !important;
 }

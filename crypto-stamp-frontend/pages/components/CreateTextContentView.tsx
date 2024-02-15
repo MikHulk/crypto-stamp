@@ -9,18 +9,26 @@ import {
 } from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
 import { usePublicClient, useWalletClient } from 'wagmi';
-import { stampTextContent } from '../../lib/etherUtils';
-import { SuccessMessage, ErrorMessage } from '../../components/feedback';
+
+import { stampTextContent } from '@/lib/etherUtils';
+import { SuccessMessage, ErrorMessage } from '@/components/feedback';
+
 
 export function CreateTextContentView(): ReactNode {
 
   const { data: walletClient, isError, isLoading } = useWalletClient();
+  const client = usePublicClient();
+
   const [message, setMessage] = useState<null | string[]>(null);
   const [error, setError] = useState<null | string[]>(null);
   const [waitingTransaction, setWaitingTransaction] = useState(false);
-  const client = usePublicClient();
 
   const contentRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(
+    () => isError ? setError(["error on wallet"]) : setError(null),
+    [isError]
+  );
 
   function onSuccess(transacHash: `0x{string}`) {
     if (contentRef && contentRef.current) contentRef.current.value = "";
@@ -65,11 +73,6 @@ export function CreateTextContentView(): ReactNode {
       );
     }
   }
-
-  useEffect(
-    () => isError ? setError(["error on wallet"]) : setError(null),
-    [isError]
-  );
 
   return (
     <>

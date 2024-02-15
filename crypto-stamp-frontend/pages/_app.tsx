@@ -1,4 +1,8 @@
 import '../styles.css';
+
+import { Flex, VStack, Heading, Spacer  } from '@chakra-ui/react';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   ConnectButton,
@@ -6,8 +10,6 @@ import {
   RainbowKitProvider,
   darkTheme,
 } from '@rainbow-me/rainbowkit';
-import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   mainnet,
@@ -15,7 +17,7 @@ import {
   sepolia,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-import { Flex, VStack, Heading, Spacer  } from '@chakra-ui/react';
+
 import StyleIt from '@/lib/SyleIt';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
