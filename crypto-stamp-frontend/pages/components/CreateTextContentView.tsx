@@ -1,17 +1,18 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
-  IconButton,
+  Box,
   Heading,
   HStack,
+  IconButton,
+  Spinner,
   Textarea,
   VStack,
-  Spinner
 } from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
 import { usePublicClient, useWalletClient } from 'wagmi';
 
 import { stampTextContent } from '@/lib/etherUtils';
-import { SuccessMessage, ErrorMessage } from '@/components/feedback';
+import { SuccessMessage, ErrorMessage, UrlDialog } from '@/components/feedback';
 
 
 export function CreateTextContentView(): ReactNode {
@@ -20,6 +21,7 @@ export function CreateTextContentView(): ReactNode {
   const client = usePublicClient();
 
   const [message, setMessage] = useState<null | string[]>(null);
+  const [newUrl, setNewUrl] = useState<null | string>(null);
   const [error, setError] = useState<null | string[]>(null);
   const [waitingTransaction, setWaitingTransaction] = useState(false);
 
@@ -41,6 +43,7 @@ export function CreateTextContentView(): ReactNode {
     if (transac.status === "success") {
       const tokenID = BigInt(transac.logs[0].topics[3]);
       setMessage([transac.transactionHash, "Token ID: " + tokenID.toString()]);
+      setNewUrl("/tokens/" + tokenID);
     } else setError([transac.transacHash, transac.status]);
   }
 
@@ -76,9 +79,10 @@ export function CreateTextContentView(): ReactNode {
 
   return (
     <>
-      {(isLoading || waitingTransaction) && <Spinner color='red.500' />}
-      {message && <SuccessMessage messages={message} onClose={() => setMessage(null)} />}
-      {error && <ErrorMessage messages={error} onClose={() => setError(null)} />}
+      { (isLoading || waitingTransaction) && <Spinner color='red.500' />}
+      { message && <SuccessMessage messages={message} onClose={() => setMessage(null)} />}
+      { error && <ErrorMessage messages={error} onClose={() => setError(null)} />}
+      { newUrl && <UrlDialog url={newUrl} onClose={() => setNewUrl(null)}/> }
       <VStack align="left" justify="start" m={6} w="100%">
         <HStack justify="space-between">
           <Heading size="sm">

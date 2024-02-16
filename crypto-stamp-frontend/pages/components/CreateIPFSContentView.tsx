@@ -16,7 +16,7 @@ import { usePublicClient, useWalletClient } from 'wagmi';
 
 import { buttonStyles } from '@/lib/commonStyles';
 import { stampURIContent } from '@/lib/etherUtils';
-import { ErrorMessage, SuccessMessage } from '@/components/feedback';
+import { ErrorMessage, SuccessMessage, UrlDialog } from '@/components/feedback';
 import { formatBytes, formatTime } from '@/lib/format';
 
 
@@ -32,6 +32,7 @@ export function CreateIPFSContentView(): ReactNode {
   const [error, setError] = useState<null | string[]>(null);
   const [message, setMessage] = useState<null | string[]>(null);
   const [waitingTransaction, setWaitingTransaction] = useState(false);
+  const [newUrl, setNewUrl] = useState<null | string>(null);
 
   // @ts-ignore
   const apiKey: string = process.env.NEXT_PUBLIC_STORAGE_API_KEY;
@@ -76,6 +77,7 @@ export function CreateIPFSContentView(): ReactNode {
       const cid_ = cid;
       resetContent();
       setMessage([transac.transactionHash, cid_, "Token ID: " + tokenID.toString()]);
+      setNewUrl("/tokens/" + tokenID);
     } else setError([transac.transacHash, transac.status]);
   }
 
@@ -116,6 +118,7 @@ export function CreateIPFSContentView(): ReactNode {
       {(isLoading || waitingTransaction) && <Spinner color='red.500' />}
       {message && <SuccessMessage messages={message} onClose={() => setMessage(null)} />}
       {error && <ErrorMessage messages={error} onClose={() => setError(null)} />}
+      { newUrl && <UrlDialog url={newUrl} onClose={() => setNewUrl(null)}/> }
       { fileContent &&
         <VStack w="100%">
           <HStack w="100%">
