@@ -42,7 +42,7 @@ export function SuccessMessage(
             top={0}
             onClick={onClose} />
         </HStack>
-        <VStack mt={1} align="start" gap={0}>
+        <VStack mt={1} ml={3} align="start" gap={1}>
           {...messageNodes}
         </VStack>
       </VStack>
@@ -70,7 +70,7 @@ export function ErrorMessage(
             top={0}
             onClick={onClose} />
         </HStack>
-        <VStack mt={1} align="start" gap={0}>
+        <VStack mt={1} ml={3} align="start" gap={0}>
           {...messageNodes}
         </VStack>
       </VStack>
@@ -98,7 +98,7 @@ export function UrlDialog({ url, onClose }:
           onClick={onClose} />
       </HStack>
       <HStack w="100%" justify="space-between" pl={4} pr={4}>
-        <Link as={NextLink} href={url} color="#a5a5d5">
+        <Link fontSize="xl" as={NextLink} href={url} color="#a5a5d5">
           <u>{ctrAdd}</u>
         </Link>
         <Button {...buttonStyles} onClick={onCopy}>

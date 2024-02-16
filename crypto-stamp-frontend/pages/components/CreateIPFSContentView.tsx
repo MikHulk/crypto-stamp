@@ -59,8 +59,19 @@ export function CreateIPFSContentView(): ReactNode {
 
   useEffect(
     () => {
-      if(file?.type === "" || file?.type === "text/plain")
-        file?.text().then(setFileContent, e => setError([e.message]));
+      if (file) {
+        if(file?.type === "" || file?.type === "text/plain")
+          file?.text().then(setFileContent, e => setError([e.message]));
+        else {
+          setError(
+            [
+              "For now, only text files are allowed.",
+              "Other formats are comming soon"
+            ]
+          );
+          resetContent();
+        }
+      }
     },
     [file]
   )
