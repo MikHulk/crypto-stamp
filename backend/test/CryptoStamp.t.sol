@@ -524,6 +524,7 @@ contract CryptoStampTest is Test {
         vm.prank(user1);
         vm.expectRevert();
         derived.accept();
+        assertTrue(ContractStatus.InProgress == derived.status());
     }
 
     function test_derive_bidder_cannot_refuse()
@@ -538,6 +539,7 @@ contract CryptoStampTest is Test {
         vm.prank(user1);
         vm.expectRevert();
         derived.refuse();
+        assertTrue(ContractStatus.InProgress == derived.status());
     }
 
     function test_derive_onlyowner_can_accept()
@@ -546,6 +548,7 @@ contract CryptoStampTest is Test {
         vm.prank(user1);
         vm.expectRevert();
         derived.accept();
+        assertTrue(ContractStatus.InProgress == derived.status());
     }
 
     function test_derive_onlyowner_can_refuse()
@@ -554,6 +557,7 @@ contract CryptoStampTest is Test {
         vm.prank(user1);
         vm.expectRevert();
         derived.refuse();
+        assertTrue(ContractStatus.InProgress == derived.status());
     }
 
     function test_withdraw_failling_transfert()
@@ -571,6 +575,8 @@ contract CryptoStampTest is Test {
         vm.expectRevert();
         vm.prank(address(badaddr));
         derived.withdraw();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertTrue(ContractStatus.InProgress == derived.status());
     }
 
     function test_owner_cannot_sign()
