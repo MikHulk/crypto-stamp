@@ -1,18 +1,16 @@
 import {
   Box,
-  IconButton,
   Heading,
   HStack,
-  Textarea,
-  VStack,
   Spinner
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react';
-import { usePublicClient, useWalletClient } from 'wagmi';
+import { usePublicClient } from 'wagmi';
 
 import { getContent, Content, getContentType } from '@/lib/etherUtils';
 import { ErrorMessage } from '@/components/feedback';
+import { ArrowLeftIcon } from '@chakra-ui/icons';
 
 
 function TextView({content} : {content: string}): ReactNode {
@@ -98,7 +96,15 @@ export default function Page(): ReactNode {
       {error && <ErrorMessage messages={error} onClose={() => setError(null)} />}
       {content &&
         <>
-          <Heading size="xd">Type: {getContentType(content.contentType)}</Heading>
+          <HStack justify="space-between" w="100%">
+            <ArrowLeftIcon 
+              _hover={{cursor: "pointer"}} 
+              onClick={() => router.push("/")} 
+            />
+            <Heading textAlign="center" flexGrow="1" size="xd">
+              Type: {getContentType(content.contentType)}
+            </Heading>
+          </HStack>
           { getViews(getContentType(content.contentType), content.value) }
         </>
       }
