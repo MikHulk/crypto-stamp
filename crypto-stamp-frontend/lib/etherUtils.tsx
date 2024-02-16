@@ -1,4 +1,4 @@
-import cryptoStampData from '@/contractData';
+import cryptoStampData from '@/cryptoStampData';
 
 
 const contractAddress = process.env.NEXT_PUBLIC_CRYPTOSTAMP_ADDR;
