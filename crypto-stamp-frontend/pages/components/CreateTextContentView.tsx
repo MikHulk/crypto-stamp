@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
-  Box,
   Heading,
   HStack,
   IconButton,
