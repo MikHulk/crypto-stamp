@@ -548,7 +548,7 @@ contract CryptoStampTest is Test {
         derived.accept();
     }
 
-    function test_derive_onyowner_can_refuse()
+    function test_derive_onlyowner_can_refuse()
         public withMediumContent withDerived
     {
         vm.prank(user1);
