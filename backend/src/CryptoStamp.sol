@@ -16,12 +16,18 @@ struct Content {
     string value;
 }
 
+struct Cosigners {
+    uint256 total;
+    mapping (address => bool) signers;
+}
+
 
 contract CryptoStamp is ERC721, ERC721URIStorage {
     
     uint256 private _currentTokenId;
     
     mapping(uint256 => string) private _registry;
+    mapping(uint256 => Cosigners) private cosigners;
     
     constructor() ERC721("CryptoStamp", "STMP") {}
 
@@ -103,6 +109,29 @@ contract CryptoStamp is ERC721, ERC721URIStorage {
             payable(recipient)
         );
         return address(newDeriv);
+    }
+
+    function sign(uint256 tokenId)
+        public
+    {
+        if(ownerOf(tokenId) == msg.sender)
+            revert("owner cannot cosign");
+        if(cosigners[tokenId].signers[msg.sender])
+            revert("cannot sign several times");
+        cosigners[tokenId].total++;
+        cosigners[tokenId].signers[msg.sender] = true;
+    }
+
+    function isSigner(uint256 tokenId, address candidate)
+        public view returns(bool)
+    {
+        return cosigners[tokenId].signers[candidate];
+    }
+
+    function countCosigners(uint256 tokenId)
+        public view returns(uint256)
+    {
+        return cosigners[tokenId].total;
     }
 }
 

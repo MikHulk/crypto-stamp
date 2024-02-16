@@ -571,5 +571,47 @@ contract CryptoStampTest is Test {
         vm.expectRevert();
         vm.prank(address(badaddr));
         derived.withdraw();
-    }   
+    }
+
+    function test_owner_cannot_sign()
+        public
+        withMediumContent
+    {
+        assertEq(contract_.countCosigners(1), 0);
+        vm.expectRevert();
+        vm.prank(author0);
+        contract_.sign(1);
+        assertEq(contract_.countCosigners(1), 0);
+    }
+
+    function test_everyone_can_sign()
+        public
+        withMediumContent
+    {
+        assertEq(contract_.countCosigners(1), 0);
+        vm.prank(user1);
+        contract_.sign(1);
+        assertEq(contract_.countCosigners(1), 1);
+        assertTrue(contract_.isSigner(1, user1));
+        vm.prank(user2);
+        contract_.sign(1);
+        assertEq(contract_.countCosigners(1), 2);
+        assertTrue(contract_.isSigner(1, user2));
+    }
+
+    function test_everyone_can_sign_but_not_twice()
+        public
+        withMediumContent
+    {
+        assertEq(contract_.countCosigners(1), 0);
+        vm.prank(user1);
+        contract_.sign(1);
+        assertEq(contract_.countCosigners(1), 1);
+        assertTrue(contract_.isSigner(1, user1));
+        vm.expectRevert();
+        vm.prank(user1);
+        contract_.sign(1);
+        assertEq(contract_.countCosigners(1), 1);
+        assertTrue(contract_.isSigner(1, user1));
+    }
 }
