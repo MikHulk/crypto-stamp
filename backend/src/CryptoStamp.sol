@@ -12,7 +12,6 @@ enum ContentType {
 
 
 struct Content {
-    uint256 parent;
     ContentType contentType;
     string value;
 }
@@ -23,7 +22,6 @@ contract CryptoStamp is ERC721, ERC721URIStorage {
     uint256 private _currentTokenId;
     
     mapping(uint256 => string) private _registry;
-    mapping(uint256 => uint256) private _ancestors;
     
     constructor() ERC721("CryptoStamp", "STMP") {}
 
@@ -91,32 +89,88 @@ contract CryptoStamp is ERC721, ERC721URIStorage {
             value = tokenText(tokenId);
             contentType = ContentType.Text;
         }
-        return Content({ parent: 0, contentType: contentType, value: value });
+        return Content({ contentType: contentType, value: value });
     }
 
-    function deriveTokenText(uint256 parent, address recipient, string calldata _content)
-        public returns (uint256)
+    function deriveToken(uint256 tokenId)
+        public returns(address)
     {
-        if (bytes(_content).length > 256)
-            revert("too long content");
-        address author = msg.sender;
-        _checkAuthorized(ownerOf(parent), author, parent);
-        uint256 newId = ++_currentTokenId;
-        _mint(recipient, newId);
-        _setText(newId, _content);
-        _ancestors[newId] = parent;
-        return newId;
+        address recipient = msg.sender;
+        address owner = ownerOf(tokenId);
+        DerivativeProduct newDeriv = new DerivativeProduct(
+            tokenId,
+            payable(owner),
+            payable(recipient)
+        );
+        return address(newDeriv);
+    }
+}
+
+
+enum ContractStatus {
+    InProgress,
+    Accepted,
+    Refused
+}
+
+
+contract DerivativeProduct {
+
+    uint256 public tokenId;
+    address payable public owner;
+    address payable public recipient;
+    uint256 public totalBalance;
+    mapping(address => uint256) bids;
+
+    ContractStatus public status;
+
+    constructor(
+        uint256 tokenId_,
+        address payable owner_,
+        address payable recipient_
+    ) {
+        tokenId = tokenId_;
+        owner = owner_;
+        recipient = recipient_;
+        totalBalance = 0;
     }
 
-    function deriveTokenURI(uint256 parent, address recipient, string memory uri)
-        public returns (uint256)
-    {
-        address author = msg.sender;
-        _checkAuthorized(ownerOf(parent), author, parent);
-        uint256 newId = ++_currentTokenId;
-        _mint(recipient, newId);
-        _setTokenURI(newId, uri);
-        _ancestors[newId] = parent;
-        return newId;
+    modifier whenInProgress {
+        if(status != ContractStatus.InProgress) revert("bidding is over");
+        _;
     }
+
+    modifier onlyOwner {
+        if(msg.sender != owner) revert("not the owner");
+        _;
+    }
+
+    function bid() public payable whenInProgress {
+        uint256 ammount = msg.value;
+        bids[msg.sender] += ammount;
+        totalBalance += ammount;
+    }
+
+    function withdraw() public {
+        require(status != ContractStatus.Accepted);
+        require(bids[msg.sender] > 0);
+        uint256 ammount = bids[msg.sender];
+        totalBalance -= ammount;
+        bids[msg.sender] = 0;
+        (bool success, )= msg.sender.call{value: ammount}("");
+        require (success, "transfert failled");
+    }
+
+    function accept() public onlyOwner whenInProgress {
+        status = ContractStatus.Accepted;
+        if (totalBalance > 0) {
+            totalBalance = 0;
+            owner.transfer(address(this).balance);
+        }
+    }
+
+    function refuse() public onlyOwner whenInProgress {
+        status = ContractStatus.Refused;
+    }
+
 }

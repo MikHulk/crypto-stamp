@@ -10,12 +10,30 @@ import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 
 
 import {Test, console2} from "forge-std/Test.sol";
-import {CryptoStamp, Content, ContentType} from "../src/CryptoStamp.sol";
+import {
+    CryptoStamp,
+    Content,
+    ContentType,
+    ContractStatus,
+    DerivativeProduct
+} from "../src/CryptoStamp.sol";
+
+
+contract BadContract {
+    receive() external payable {
+        revert("error");
+    }
+    fallback() external payable {
+        revert("error");
+    }
+    function test() public {}
+}
 
 
 contract CryptoStampTest is Test {
 
     CryptoStamp contract_;
+    DerivativeProduct derived;
     address author0 = makeAddr("author0");
     address author1 = makeAddr("author1");
     address lawyer = makeAddr("lawyer");
@@ -30,6 +48,12 @@ contract CryptoStampTest is Test {
     string longContent;
 
     string testURI = "https://test.example/item-id-8u5h2m.png";
+
+    modifier withDerived() {
+        vm.prank(author1);
+        derived = DerivativeProduct(contract_.deriveToken(1));
+        _;
+    }
 
     modifier withShortContent() {
         string memory content = shortContent;
@@ -283,12 +307,10 @@ contract CryptoStampTest is Test {
         content = contract_.content(1);
         assertEq(uint(content.contentType), uint(ContentType.URI));
         assertEq(content.value, testURI);
-        assertEq(content.parent, 0);
 
         content = contract_.content(2);
         assertEq(uint(content.contentType), uint(ContentType.Text));
         assertEq(content.value, shortContent);
-        assertEq(content.parent, 0);
 
         bytes memory expectedError = abi.encodeWithSelector(
             IERC721Errors.ERC721NonexistentToken.selector,
@@ -302,95 +324,56 @@ contract CryptoStampTest is Test {
         public
         withTokenURI
     {
-        vm.prank(author0);
-        uint256 tokenId = contract_.deriveTokenURI(
-            1,
-            author1,
-            "https://test.example/item-id-8u5h2m.png"
-        );
-        address owner = contract_.ownerOf(tokenId);
-        assertEq(owner, author1);
-        assertNotEq(owner, author0);
-        assertNotEq(owner, user1);
+        vm.prank(author1);
+        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        assertEq(author0, newContract.owner());
+        assertEq(author1, newContract.recipient());
+        assertTrue(ContractStatus.InProgress == newContract.status());
+        assertEq(1, newContract.tokenId());
+        assertEq(0, newContract.totalBalance());
+        assertEq(address(newContract).balance, newContract.totalBalance());
     }
 
     function test_derive_tokenText_from_uri()
         public
         withTokenURI
     {
-        vm.prank(author0);
-        uint256 tokenId = contract_.deriveTokenText(
-            1,
-            author1,
-            mediumContent
-        );
-        address owner = contract_.ownerOf(tokenId);
-        assertEq(owner, author1);
-        assertNotEq(owner, author0);
-        assertNotEq(owner, user1);
+        vm.prank(author1);
+        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        assertEq(author0, newContract.owner());
+        assertEq(author1, newContract.recipient());
+        assertTrue(ContractStatus.InProgress == newContract.status());
+        assertEq(1, newContract.tokenId());
+        assertEq(0, newContract.totalBalance());
+        assertEq(address(newContract).balance, newContract.totalBalance());
     }
 
     function test_derive_tokenURI_from_text()
         public
         withMediumContent
     {
-        vm.prank(author0);
-        uint256 tokenId = contract_.deriveTokenURI(
-            1,
-            author1,
-            "https://test.example/item-id-8u5h2m.png"
-        );
-        address owner = contract_.ownerOf(tokenId);
-        assertEq(owner, author1);
-        assertNotEq(owner, author0);
-        assertNotEq(owner, user1);
+        vm.prank(author1);
+        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        assertEq(author0, newContract.owner());
+        assertEq(author1, newContract.recipient());
+        assertTrue(ContractStatus.InProgress == newContract.status());
+        assertEq(1, newContract.tokenId());
+        assertEq(0, newContract.totalBalance());
+        assertEq(address(newContract).balance, newContract.totalBalance());
     }
 
     function test_derive_tokenText_from_text()
         public
         withMediumContent
     {
-        vm.prank(author0);
-        uint256 tokenId = contract_.deriveTokenText(
-            1,
-            author1,
-            mediumContent
-        );
-        address owner = contract_.ownerOf(tokenId);
-        assertEq(owner, author1);
-        assertNotEq(owner, author0);
-        assertNotEq(owner, user1);
-    }
-
-    function test_derive_tokenText_too_long()
-        public
-        withTokenURI
-    {
-        vm.expectRevert("too long content");
-        vm.prank(author0);
-        contract_.deriveTokenText(
-            1,
-            author1,
-            longContent
-        );
-    }
-
-    function test_derive_tokenText_not_alowed()
-        public
-        withTokenURI
-    {
-        bytes memory expectedError = abi.encodeWithSelector(
-            IERC721Errors.ERC721InsufficientApproval.selector,
-            user1,
-            1
-        );
-        vm.expectRevert(expectedError);
-        vm.prank(user1);
-        contract_.deriveTokenText(
-            1,
-            author1,
-            shortContent
-        );
+        vm.prank(author1);
+        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        assertEq(author0, newContract.owner());
+        assertEq(author1, newContract.recipient());
+        assertTrue(ContractStatus.InProgress == newContract.status());
+        assertEq(1, newContract.tokenId());
+        assertEq(0, newContract.totalBalance());
+        assertEq(address(newContract).balance, newContract.totalBalance());
     }
 
     function test_derive_tokenText_no_token()
@@ -402,10 +385,191 @@ contract CryptoStampTest is Test {
         );
         vm.expectRevert(expectedError);
         vm.prank(user1);
-        contract_.deriveTokenText(
-            1,
-            author1,
-            shortContent
-        );
+        contract_.deriveToken(1);
     }
+
+    function test_derive_everyone_can_bid()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertEq(user1.balance, 6 ether);
+        hoax(user2, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 8 ether);
+        assertEq(address(derived).balance, 8 ether);
+        assertEq(user2.balance, 6 ether);
+    }
+
+    function test_derive_bidder_can_withdraw_when_in_progress()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertEq(user1.balance, 6 ether);
+        vm.prank(user1);
+        derived.withdraw();
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
+        assertEq(user1.balance, 10 ether);
+    }
+
+    function test_derive_bidder_can_withdraw_when_refused()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertEq(user1.balance, 6 ether);
+        vm.prank(author0);
+        derived.refuse();
+        assertTrue(ContractStatus.Refused == derived.status());
+        vm.prank(user1);
+        derived.withdraw();
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
+        assertEq(user1.balance, 10 ether);
+    }
+
+    function test_derive_bidder_canot_withdraw_when_accepted()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertEq(user1.balance, 6 ether);
+        vm.prank(author0);
+        derived.accept();
+        assertTrue(ContractStatus.Accepted == derived.status());
+        vm.prank(user1);
+        vm.expectRevert();
+        derived.withdraw();
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
+        assertEq(user1.balance, 6 ether);
+        assertEq(author0, derived.owner());
+        assertEq(author1, derived.recipient());
+        assertEq(author0.balance, 4 ether);
+    }
+
+    function test_derive_no_bidder_no_withdraw()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        vm.expectRevert();
+        derived.withdraw();
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
+        assertEq(user1.balance, 10 ether);
+    }
+
+    function test_derive_owner_can_accept_with_bal()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertTrue(ContractStatus.InProgress == derived.status());
+        vm.prank(author0);
+        derived.accept();
+        assertTrue(ContractStatus.Accepted == derived.status());
+        assertEq(author0.balance, 4 ether);
+    }
+
+    function test_derive_owner_can_accept_with_no_bal()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
+        vm.prank(author0);
+        derived.accept();
+        assertTrue(ContractStatus.Accepted == derived.status());
+        assertEq(author0.balance, 0);
+    }
+
+    function test_derive_owner_can_refuse_with_no_bal()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
+        vm.prank(author0);
+        derived.refuse();
+        assertTrue(ContractStatus.Refused == derived.status());
+    }
+
+    function test_derive_bidder_cannot_accept()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertEq(user1.balance, 6 ether);
+        vm.prank(user1);
+        vm.expectRevert();
+        derived.accept();
+    }
+
+    function test_derive_bidder_cannot_refuse()
+        public withMediumContent withDerived
+    {
+        assertEq(derived.totalBalance(), 0);
+        hoax(user1, 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        assertEq(address(derived).balance, 4 ether);
+        assertEq(user1.balance, 6 ether);
+        vm.prank(user1);
+        vm.expectRevert();
+        derived.refuse();
+    }
+
+    function test_derive_onlyowner_can_accept()
+        public withMediumContent withDerived
+    {
+        vm.prank(user1);
+        vm.expectRevert();
+        derived.accept();
+    }
+
+    function test_derive_onyowner_can_refuse()
+        public withMediumContent withDerived
+    {
+        vm.prank(user1);
+        vm.expectRevert();
+        derived.refuse();
+    }
+
+    function test_withdraw_failling_transfert()
+        public
+    {
+        string memory content = mediumContent;
+        vm.prank(author0);
+        contract_.stampTextContent(content);
+        BadContract badaddr = new BadContract();
+        vm.prank(address(badaddr));
+        derived = DerivativeProduct(contract_.deriveToken(1));
+        hoax(address(badaddr), 10 ether);
+        derived.bid{value: 4 ether}();
+        assertEq(derived.totalBalance(), 4 ether);
+        vm.expectRevert();
+        vm.prank(address(badaddr));
+        derived.withdraw();
+    }   
 }
