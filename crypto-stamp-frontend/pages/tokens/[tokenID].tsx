@@ -34,7 +34,6 @@ export default function Page(): ReactNode {
   const [isOwner, setIsOwner] = useState<null | boolean>(null);
 
   const tokenID = router.query.tokenID;
-  console.log(account, isSigner, isOwner);
 
   useEffect(
     () => {

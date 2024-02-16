@@ -77,7 +77,6 @@ export async function getIsSigner(client: any, tokenID: bigint, addr: `0${string
 }
 
 export async function getIsOwner(client: any, tokenID: bigint, addr: `0${string}`) {
-  console.log(tokenID, addr);
   const owner: `0${string}` = await client?.readContract(
     {
       address: contractAddress,
