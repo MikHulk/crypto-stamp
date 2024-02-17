@@ -61,7 +61,7 @@ function getConfig() {
 const [chains, wagmiConfig] = getConfig();
 const isContractAddressValid: boolean = (
   process.env.NEXT_PUBLIC_CRYPTOSTAMP_ADDR && 
-  process.env.NEXT_PUBLIC_CRYPTOSTAMP_ADDR.match(/^0x[0-9A-z]{40}$/) ? true : false
+  process.env.NEXT_PUBLIC_CRYPTOSTAMP_ADDR.match(/^0x[0-9A-Fa-f]{40}$/) ? true : false
 );
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -106,7 +106,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                   </VStack>
                 </RainbowKitProvider>
               </WagmiConfig>
-            ) : <Heading color="red">Chain not configured</Heading> }
+            ) : <Heading mt={50} textAlign="center" ml="auto" mr="auto" color="red">
+                  Chain not configured
+                </Heading>
+            }
         </main>
         <footer>
           <Flex 
