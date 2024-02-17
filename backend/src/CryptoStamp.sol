@@ -202,11 +202,11 @@ enum ContractStatus {
 contract DerivativeProduct {
 
     /// @notice the tokenId the contract is bound to.
-    uint256 public tokenId;
+    uint256 public immutable tokenId;
     /// @notice the owner of the token.
-    address payable public owner;
+    address payable public immutable owner;
     /// @notice the address of the claimant to the right of use
-    address payable public recipient;
+    address payable public immutable recipient;
     /// @notice terms of usage
     string public terms;
     /// @notice The amount paid to the owner if he accepts
@@ -221,6 +221,8 @@ contract DerivativeProduct {
         address payable recipient_,
         string memory terms_
     ) {
+        require(owner_ != address(0), "invalid owner address");
+        require(recipient_ != address(0), "invalid recipient address");
         terms = terms_;
         tokenId = tokenId_;
         owner = owner_;
