@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-
 import "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
 import "@openzeppelin/contracts/interfaces/IERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -51,7 +50,7 @@ contract CryptoStampTest is Test {
 
     modifier withDerived() {
         vm.prank(author1);
-        derived = DerivativeProduct(contract_.deriveToken(1));
+        derived = DerivativeProduct(contract_.deriveToken(1, "test derivation"));
         _;
     }
 
@@ -325,7 +324,8 @@ contract CryptoStampTest is Test {
         withTokenURI
     {
         vm.prank(author1);
-        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        DerivativeProduct newContract =
+            DerivativeProduct(contract_.deriveToken(1, "test derivation"));
         assertEq(author0, newContract.owner());
         assertEq(author1, newContract.recipient());
         assertTrue(ContractStatus.InProgress == newContract.status());
@@ -339,7 +339,8 @@ contract CryptoStampTest is Test {
         withTokenURI
     {
         vm.prank(author1);
-        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        DerivativeProduct newContract =
+            DerivativeProduct(contract_.deriveToken(1, "test derivation"));
         assertEq(author0, newContract.owner());
         assertEq(author1, newContract.recipient());
         assertTrue(ContractStatus.InProgress == newContract.status());
@@ -353,7 +354,8 @@ contract CryptoStampTest is Test {
         withMediumContent
     {
         vm.prank(author1);
-        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        DerivativeProduct newContract =
+            DerivativeProduct(contract_.deriveToken(1, "test derivation"));
         assertEq(author0, newContract.owner());
         assertEq(author1, newContract.recipient());
         assertTrue(ContractStatus.InProgress == newContract.status());
@@ -367,13 +369,23 @@ contract CryptoStampTest is Test {
         withMediumContent
     {
         vm.prank(author1);
-        DerivativeProduct newContract = DerivativeProduct(contract_.deriveToken(1));
+        DerivativeProduct newContract =
+            DerivativeProduct(contract_.deriveToken(1, "test derivation"));
         assertEq(author0, newContract.owner());
         assertEq(author1, newContract.recipient());
         assertTrue(ContractStatus.InProgress == newContract.status());
         assertEq(1, newContract.tokenId());
         assertEq(0, newContract.totalBalance());
         assertEq(address(newContract).balance, newContract.totalBalance());
+    }
+
+    function test_derive_tokenText_too_long_terms()
+        public
+        withMediumContent
+    {
+        vm.expectRevert();
+        vm.prank(author1);
+        DerivativeProduct(contract_.deriveToken(1, longContent));
     }
 
     function test_derive_tokenText_no_token()
@@ -385,7 +397,7 @@ contract CryptoStampTest is Test {
         );
         vm.expectRevert(expectedError);
         vm.prank(user1);
-        contract_.deriveToken(1);
+        contract_.deriveToken(1, "test derivation");
     }
 
     function test_derive_everyone_can_bid()
@@ -568,7 +580,7 @@ contract CryptoStampTest is Test {
         contract_.stampTextContent(content);
         BadContract badaddr = new BadContract();
         vm.prank(address(badaddr));
-        derived = DerivativeProduct(contract_.deriveToken(1));
+        derived = DerivativeProduct(contract_.deriveToken(1, "test derivation"));
         hoax(address(badaddr), 10 ether);
         derived.bid{value: 4 ether}();
         assertEq(derived.totalBalance(), 4 ether);
