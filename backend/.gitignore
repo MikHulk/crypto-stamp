@@ -8,3 +8,5 @@ broadcast/
 # coverage outputs
 report/*
 lcov.info
+.venv
+.secret.json
