@@ -1,0 +1,311 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="571pt" height="1234pt" viewBox="0.00 0.00 570.52 1234">
+<g id="graph0" class="graph" transform="translate(61.45110846198446,1140.5430553099409) scale(0.898132376718238)" data-name="G">
+
+<polygon fill="#2e3e56" stroke="none" points="-4,4 -4,-1230 566.52,-1230 566.52,4 -4,4"/>
+<g id="clust1" class="cluster" data-name="clusterCryptoStamp">
+
+<path fill="#445773" stroke="#445773" d="M20.92,-147C20.92,-147 535.55,-147 535.55,-147 541.55,-147 547.55,-153 547.55,-159 547.55,-159 547.55,-644 547.55,-644 547.55,-650 541.55,-656 535.55,-656 535.55,-656 20.92,-656 20.92,-656 14.92,-656 8.92,-650 8.92,-644 8.92,-644 8.92,-159 8.92,-159 8.92,-153 14.92,-147 20.92,-147" style=""/>
+<text text-anchor="middle" x="278.23" y="-639.4" font-family="Times,serif" font-size="14.00" fill="#f0f0f0" style="">CryptoStamp</text>
+</g>
+<g id="clust2" class="cluster" data-name="clusterDerivativeProduct">
+
+<path fill="#445773" stroke="#445773" d="M20,-664C20,-664 178.59,-664 178.59,-664 184.59,-664 190.59,-670 190.59,-676 190.59,-676 190.59,-1069 190.59,-1069 190.59,-1075 184.59,-1081 178.59,-1081 178.59,-1081 20,-1081 20,-1081 14,-1081 8,-1075 8,-1069 8,-1069 8,-676 8,-676 8,-670 14,-664 20,-664" style=""/>
+<text text-anchor="middle" x="99.3" y="-1064.4" font-family="Times,serif" font-size="14.00" fill="#f0f0f0" style="">DerivativeProduct</text>
+</g>
+<g id="clust3" class="cluster" data-name="clusterERC721URIStorage">
+
+<path fill="#3b4b63" stroke="#e8726d" stroke-dasharray="5,2" d="M394.38,-8C394.38,-8 542.52,-8 542.52,-8 548.52,-8 554.52,-14 554.52,-20 554.52,-20 554.52,-127 554.52,-127 554.52,-133 548.52,-139 542.52,-139 542.52,-139 394.38,-139 394.38,-139 388.38,-139 382.38,-133 382.38,-127 382.38,-127 382.38,-20 382.38,-20 382.38,-14 388.38,-8 394.38,-8" style=""/>
+<text text-anchor="middle" x="468.45" y="-122.4" font-family="Times,serif" font-size="14.00" fill="#f0f0f0" style="">ERC721URIStorage</text>
+</g>
+<g id="clust4" class="cluster" data-name="clusterowner">
+
+<path fill="#3b4b63" stroke="#e8726d" stroke-dasharray="5,2" d="M249.96,-718C249.96,-718 323.01,-718 323.01,-718 329.01,-718 335.01,-724 335.01,-730 335.01,-730 335.01,-783 335.01,-783 335.01,-789 329.01,-795 323.01,-795 323.01,-795 249.96,-795 249.96,-795 243.96,-795 237.96,-789 237.96,-783 237.96,-783 237.96,-730 237.96,-730 237.96,-724 243.96,-718 249.96,-718" style=""/>
+<text text-anchor="middle" x="286.49" y="-778.4" font-family="Times,serif" font-size="14.00" fill="#f0f0f0" style="">owner</text>
+</g>
+<g id="clust5" class="cluster" data-name="cluster_01">
+
+<polygon fill="#2e3e56" stroke="black" points="26.3,-1089 26.3,-1218 321.49,-1218 321.49,-1089 26.3,-1089" style=""/>
+<text text-anchor="middle" x="173.89" y="-1201.4" font-family="Times,serif" font-size="14.00" style="">Legend</text>
+</g>
+<!-- CryptoStamp.&lt;Constructor&gt; -->
+<g id="node1" class="node" pointer-events="visible" data-name="CryptoStamp.&lt;Constructor&gt;">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-605" rx="67.55" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-600.8" font-family="Times,serif" font-size="14.00">&lt;Constructor&gt;</text>
+</g>
+<!-- CryptoStamp._setText --><g id="edge2" class="edge" data-name="CryptoStamp.stampTextContent-&gt;CryptoStamp._setText" data-comment="CryptoStamp._setText">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M151.88,-566.04C178.28,-573.74 210.25,-583.06 236.29,-590.66"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="235.07,-593.94 245.65,-593.38 237.03,-587.22 235.07,-593.94"/>
+</g>
+<g id="node2" class="node" pointer-events="visible" data-name="CryptoStamp._setText">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="286.49" cy="-605" rx="44.08" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-600.8" font-family="Times,serif" font-size="14.00">_setText</text>
+</g>
+<!-- CryptoStamp.stampTextContent -->
+<g id="node3" class="node" pointer-events="visible" data-name="CryptoStamp.stampTextContent">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-551" rx="82.26" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-546.8" font-family="Times,serif" font-size="14.00">stampTextContent</text>
+</g>
+<!-- CryptoStamp.stampTextContent&#45;&gt;CryptoStamp._setText --><g id="edge1" class="edge" data-name="CryptoStamp.stampTextContent-&gt;CryptoStamp._mint" data-comment="CryptoStamp.stampTextContent-&gt;CryptoStamp._setText">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M182.87,-551C202.05,-551 221.81,-551 238.8,-551"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="238.75,-554.5 248.75,-551 238.75,-547.5 238.75,-554.5"/>
+</g>
+
+<!-- CryptoStamp._mint -->
+<g id="node13" class="node" pointer-events="visible" data-name="CryptoStamp._mint">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="286.49" cy="-551" rx="33.64" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-546.8" font-family="Times,serif" font-size="14.00">_mint</text>
+</g>
+<!-- CryptoStamp.stampTextContent&#45;&gt;CryptoStamp._mint -->
+
+<!-- CryptoStamp.tokenText --><g id="edge3" class="edge" data-name="CryptoStamp.tokenText-&gt;CryptoStamp._requireOwned" data-comment="CryptoStamp.tokenText">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M338.09,-443C352.14,-443 367.79,-443 383.21,-443"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="383.05,-446.5 393.05,-443 383.05,-439.5 383.05,-446.5"/>
+</g>
+<g id="node4" class="node" pointer-events="visible" data-name="CryptoStamp.tokenText">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="286.49" cy="-443" rx="50.38" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-438.8" font-family="Times,serif" font-size="14.00">tokenText</text>
+</g>
+<!-- CryptoStamp._requireOwned -->
+<g id="node14" class="node" pointer-events="visible" data-name="CryptoStamp._requireOwned">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="468.45" cy="-443" rx="71.2" ry="18"/>
+<text text-anchor="middle" x="468.45" y="-438.8" font-family="Times,serif" font-size="14.00">_requireOwned</text>
+</g>
+<!-- CryptoStamp.tokenText&#45;&gt;CryptoStamp._requireOwned -->
+
+<!-- CryptoStamp.tokenURI --><g id="edge4" class="edge" data-name="CryptoStamp.tokenURI-&gt;ERC721URIStorage.tokenURI" data-comment="CryptoStamp.tokenURI">
+
+<path fill="none" stroke="white" stroke-width="2" d="M330.53,-379.36C339.65,-375.4 348.33,-369.83 354.38,-362 414.32,-284.31 330.09,-226.03 382.38,-143 391.79,-128.06 406.9,-116.38 421.8,-107.7"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="423.24,-110.9 430.39,-103.07 419.92,-104.73 423.24,-110.9"/>
+</g>
+<g id="node5" class="node" pointer-events="visible" data-name="CryptoStamp.tokenURI">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="286.49" cy="-389" rx="49.24" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-384.8" font-family="Times,serif" font-size="14.00">tokenURI</text>
+</g>
+<!-- ERC721URIStorage.tokenURI -->
+<g id="node25" class="node" pointer-events="visible" data-name="ERC721URIStorage.tokenURI">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="468.45" cy="-88" rx="49.24" ry="18"/>
+<text text-anchor="middle" x="468.45" y="-83.8" font-family="Times,serif" font-size="14.00">tokenURI</text>
+</g>
+<!-- CryptoStamp.tokenURI&#45;&gt;ERC721URIStorage.tokenURI -->
+
+<!-- CryptoStamp.supportsInterface --><g id="edge5" class="edge" data-name="CryptoStamp.supportsInterface-&gt;ERC721URIStorage.supportsInterface" data-comment="CryptoStamp.supportsInterface">
+
+<path fill="none" stroke="white" stroke-width="2" d="M158.94,-268.11C169.88,-264.44 180.91,-259.8 190.59,-254 294.34,-191.87 279.16,-123.99 382.38,-61 387.78,-57.7 393.62,-54.77 399.62,-52.17"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="400.46,-55.61 408.48,-48.69 397.9,-49.09 400.46,-55.61"/>
+</g>
+<g id="node6" class="node" pointer-events="visible" data-name="CryptoStamp.supportsInterface">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-281" rx="78.14" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-276.8" font-family="Times,serif" font-size="14.00">supportsInterface</text>
+</g>
+<!-- ERC721URIStorage.supportsInterface -->
+<g id="node26" class="node" pointer-events="visible" data-name="ERC721URIStorage.supportsInterface">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="468.45" cy="-34" rx="78.14" ry="18"/>
+<text text-anchor="middle" x="468.45" y="-29.8" font-family="Times,serif" font-size="14.00">supportsInterface</text>
+</g>
+<!-- CryptoStamp.supportsInterface&#45;&gt;ERC721URIStorage.supportsInterface --><g id="edge6" class="edge" data-name="CryptoStamp.stampURI-&gt;CryptoStamp._mint" data-comment="CryptoStamp.supportsInterface-&gt;ERC721URIStorage.supportsInterface">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M140.94,-508.85C171.12,-517.65 212.2,-529.63 242.85,-538.57"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="241.8,-541.91 252.38,-541.35 243.76,-535.19 241.8,-541.91"/>
+</g>
+
+<!-- CryptoStamp.stampURI -->
+<g id="node7" class="node" pointer-events="visible" data-name="CryptoStamp.stampURI">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-497" rx="50.97" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-492.8" font-family="Times,serif" font-size="14.00">stampURI</text>
+</g>
+<!-- CryptoStamp.stampURI&#45;&gt;CryptoStamp._mint --><g id="edge7" class="edge" data-name="CryptoStamp.stampURI-&gt;CryptoStamp._setTokenURI" data-comment="CryptoStamp.stampURI-&gt;CryptoStamp._mint">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M151.39,-497C167.76,-497 186.31,-497 204.28,-497"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="204.19,-500.5 214.19,-497 204.19,-493.5 204.19,-500.5"/>
+</g>
+
+<!-- CryptoStamp._setTokenURI -->
+<g id="node15" class="node" pointer-events="visible" data-name="CryptoStamp._setTokenURI">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="286.49" cy="-497" rx="67.79" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-492.8" font-family="Times,serif" font-size="14.00">_setTokenURI</text>
+</g>
+<!-- CryptoStamp.stampURI&#45;&gt;CryptoStamp._setTokenURI --><g id="edge9" class="edge" data-name="CryptoStamp.content-&gt;CryptoStamp.tokenText" data-comment="CryptoStamp.stampURI-&gt;CryptoStamp._setTokenURI">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M140.02,-443C163.86,-443 194.73,-443 221.89,-443"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="221.86,-446.5 231.86,-443 221.86,-439.5 221.86,-446.5"/>
+</g>
+
+<!-- CryptoStamp.content --><g id="edge8" class="edge" data-name="CryptoStamp.content-&gt;CryptoStamp.tokenURI" data-comment="CryptoStamp.content">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M134.26,-433.1C162.1,-424.98 201.95,-413.36 233.76,-404.08"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="234.42,-407.54 243.04,-401.38 232.46,-400.82 234.42,-407.54"/>
+</g>
+<g id="node8" class="node" pointer-events="visible" data-name="CryptoStamp.content">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-443" rx="39.42" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-438.8" font-family="Times,serif" font-size="14.00">content</text>
+</g>
+<!-- CryptoStamp.content&#45;&gt;CryptoStamp.tokenText -->
+
+<!-- CryptoStamp.content&#45;&gt;CryptoStamp.tokenURI -->
+
+<!-- CryptoStamp.deriveToken --><g id="edge10" class="edge" data-name="CryptoStamp.deriveToken-&gt;CryptoStamp.ownerOf" data-comment="CryptoStamp.deriveToken">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M153.94,-380.54C166.96,-376.54 180.13,-370.66 190.59,-362 211.42,-344.76 198.59,-326.19 218.59,-308 223.5,-303.53 229.25,-299.76 235.27,-296.58"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="236.67,-299.79 244.3,-292.44 233.76,-293.43 236.67,-299.79"/>
+</g>
+<g id="node9" class="node" pointer-events="visible" data-name="CryptoStamp.deriveToken">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-389" rx="59.67" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-384.8" font-family="Times,serif" font-size="14.00">deriveToken</text>
+</g>
+<!-- CryptoStamp.ownerOf -->
+<g id="node16" class="node" pointer-events="visible" data-name="CryptoStamp.ownerOf">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="286.49" cy="-281" rx="45.22" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-276.8" font-family="Times,serif" font-size="14.00">ownerOf</text>
+</g>
+<!-- CryptoStamp.deriveToken&#45;&gt;CryptoStamp.ownerOf --><g id="edge11" class="edge" data-name="CryptoStamp.deriveToken-&gt;CryptoStamp.payable" data-comment="CryptoStamp.deriveToken-&gt;CryptoStamp.ownerOf">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M135.13,-373.43C162.85,-363.85 202.06,-352.18 233.5,-344.02"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="234.22,-347.45 243.06,-341.61 232.51,-340.66 234.22,-347.45"/>
+</g>
+
+<!-- CryptoStamp.payable -->
+<g id="node17" class="node" pointer-events="visible" data-name="CryptoStamp.payable">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="286.49" cy="-335" rx="41.13" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-330.8" font-family="Times,serif" font-size="14.00">payable</text>
+</g>
+<!-- CryptoStamp.deriveToken&#45;&gt;CryptoStamp.payable -->
+<!-- CryptoStamp.sign&#45;&gt;CryptoStamp.ownerOf -->
+<!-- CryptoStamp.deriveToken&#45;&gt;CryptoStamp.payable --><g id="edge13" class="edge" data-name="CryptoStamp.sign-&gt;CryptoStamp.ownerOf" data-comment="CryptoStamp.deriveToken-&gt;CryptoStamp.payable">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M125.66,-327.6C153.92,-319.36 200.33,-305.83 235.87,-295.47"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="236.42,-298.95 245.04,-292.79 234.46,-292.23 236.42,-298.95"/>
+</g>
+<!-- CryptoStamp.isSigner --><g id="edge12" class="edge" data-name="CryptoStamp.deriveToken-&gt;CryptoStamp.payable" data-comment="CryptoStamp.isSigner">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M152.87,-379.83C181.76,-372.31 217.1,-361.87 244.02,-352.83"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="244.95,-356.21 253.26,-349.64 242.67,-349.59 244.95,-356.21"/>
+</g>
+<!-- CryptoStamp.sign -->
+<g id="node10" class="node" pointer-events="visible" data-name="CryptoStamp.sign">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-335" rx="27.27" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-330.8" font-family="Times,serif" font-size="14.00">sign</text>
+</g><!-- CryptoStamp.countCosigners -->
+<g id="node11" class="node" pointer-events="visible" data-name="CryptoStamp.isSigner" data-comment="CryptoStamp.countCosigners">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-227" rx="42.88" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-222.8" font-family="Times,serif" font-size="14.00">isSigner</text>
+</g><g id="node12" class="node" pointer-events="visible" data-name="CryptoStamp.countCosigners">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-173" rx="71.24" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-168.8" font-family="Times,serif" font-size="14.00">countCosigners</text>
+</g>
+<!-- DerivativeProduct.&lt;Constructor&gt; -->
+<g id="node18" class="node" pointer-events="visible" data-name="DerivativeProduct.&lt;Constructor&gt;">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-1030" rx="67.55" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-1025.8" font-family="Times,serif" font-size="14.00">&lt;Constructor&gt;</text>
+</g>
+<!-- DerivativeProduct.whenInProgress -->
+<g id="node19" class="node" pointer-events="visible" data-name="DerivativeProduct.whenInProgress">
+
+<polygon fill="#edad56" stroke="#1bc6a6" stroke-width="3" points="178.4,-964.54 178.4,-979.46 132.06,-990 66.53,-990 20.19,-979.46 20.19,-964.54 66.53,-954 132.06,-954 178.4,-964.54"/>
+<polygon fill="none" stroke="#1bc6a6" stroke-width="3" points="182.39,-961.35 182.39,-982.65 132.51,-994 66.08,-994 16.2,-982.65 16.2,-961.35 66.08,-950 132.51,-950 182.39,-961.35"/>
+<text text-anchor="middle" x="99.3" y="-967.8" font-family="Times,serif" font-size="14.00">whenInProgress</text>
+</g>
+<!-- DerivativeProduct.onlyOwner -->
+<g id="node20" class="node" pointer-events="visible" data-name="DerivativeProduct.onlyOwner">
+
+<polygon fill="#edad56" stroke="#1bc6a6" stroke-width="3" points="158.24,-902.54 158.24,-917.46 123.71,-928 74.88,-928 40.35,-917.46 40.35,-902.54 74.88,-892 123.71,-892 158.24,-902.54"/>
+<polygon fill="none" stroke="#1bc6a6" stroke-width="3" points="162.24,-899.58 162.24,-920.42 124.31,-932 74.28,-932 36.35,-920.42 36.35,-899.58 74.28,-888 124.31,-888 162.24,-899.58"/>
+<text text-anchor="middle" x="99.3" y="-905.8" font-family="Times,serif" font-size="14.00">onlyOwner</text>
+</g>
+<!-- DerivativeProduct.bid -->
+<g id="node21" class="node" pointer-events="visible" data-name="DerivativeProduct.bid">
+
+<ellipse fill="#ff9797" stroke="brown" stroke-width="3" cx="99.3" cy="-852" rx="27" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-847.8" font-family="Times,serif" font-size="14.00">bid</text>
+</g>
+<!-- DerivativeProduct.withdraw -->
+<g id="node22" class="node" pointer-events="visible" data-name="DerivativeProduct.withdraw">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-798" rx="47.52" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-793.8" font-family="Times,serif" font-size="14.00">withdraw</text>
+</g>
+<!-- DerivativeProduct.accept -->
+<g id="node23" class="node" pointer-events="visible" data-name="DerivativeProduct.accept">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-744" rx="35.89" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-739.8" font-family="Times,serif" font-size="14.00">accept</text>
+</g>
+<!-- owner.transfer -->
+<g id="node27" class="node" pointer-events="visible" data-name="owner.transfer">
+
+<ellipse fill="#edad56" stroke="#edad56" stroke-width="3" cx="286.49" cy="-744" rx="40.55" ry="18"/>
+<text text-anchor="middle" x="286.49" y="-739.8" font-family="Times,serif" font-size="14.00">transfer</text>
+</g>
+<!-- DerivativeProduct.accept&#45;&gt;owner.transfer -->
+<g id="edge14" class="edge" data-name="DerivativeProduct.accept-&gt;owner.transfer">
+
+<path fill="none" stroke="white" stroke-width="2" d="M136.44,-744C163.61,-744 201.27,-744 231.93,-744"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="231.57,-747.5 241.57,-744 231.57,-740.5 231.57,-747.5"/>
+</g>
+<!-- DerivativeProduct.refuse -->
+<g id="node24" class="node" pointer-events="visible" data-name="DerivativeProduct.refuse">
+
+<ellipse fill="#ff9797" stroke="#ff9797" stroke-width="3" cx="99.3" cy="-690" rx="34.75" ry="18"/>
+<text text-anchor="middle" x="99.3" y="-685.8" font-family="Times,serif" font-size="14.00">refuse</text>
+</g>
+<!-- key -->
+<g id="node28" class="node" pointer-events="visible" data-name="key">
+
+<polygon fill="#edad56" stroke="none" stroke-width="3" points="164.3,-1185 34.3,-1185 34.3,-1097 164.3,-1097 164.3,-1185"/>
+<text text-anchor="start" x="83.93" y="-1166.4" font-family="Times,serif" font-size="14.00">Internal Call</text>
+<text text-anchor="start" x="80.04" y="-1146.4" font-family="Times,serif" font-size="14.00">External Call</text>
+<text text-anchor="start" x="57.5" y="-1126.4" font-family="Times,serif" font-size="14.00">Defined Contract</text>
+<text text-anchor="start" x="43.9" y="-1106.4" font-family="Times,serif" font-size="14.00">Undefined Contract</text>
+</g>
+<!-- key2 -->
+<g id="node29" class="node" pointer-events="visible" data-name="key2">
+
+<polygon fill="#edad56" stroke="none" stroke-width="3" points="313.49,-1185 259.49,-1185 259.49,-1097 313.49,-1097 313.49,-1185"/>
+<text text-anchor="start" x="276.49" y="-1166.4" font-family="Times,serif" font-size="14.00">   </text>
+<text text-anchor="start" x="276.49" y="-1146.4" font-family="Times,serif" font-size="14.00">   </text>
+<polygon fill="#445773" stroke="none" points="274.49,-1121 274.49,-1141 299.49,-1141 299.49,-1121 274.49,-1121"/>
+<text text-anchor="start" x="276.49" y="-1126.4" font-family="Times,serif" font-size="14.00">   </text>
+<polygon fill="none" stroke="#e8726d" points="276.49,-1103 276.49,-1119 297.49,-1119 297.49,-1103 276.49,-1103"/>
+</g>
+
+<!-- key&#45;&gt;key2 -->
+
+<g id="edge15" class="edge" data-name="key-&gt;key2">
+
+<path fill="none" stroke="#1bc6a6" stroke-width="2" d="M157.3,-1171C204.4,-1171 219.28,-1171 260.71,-1171"/>
+<polygon fill="#1bc6a6" stroke="#1bc6a6" stroke-width="2" points="260.46,-1174.5 270.46,-1171 260.46,-1167.5 260.46,-1174.5"/>
+</g>
+
+<!-- key&#45;&gt;key2 -->
+
+
+<g id="edge16" class="edge" data-name="key-&gt;key2">
+
+<path fill="none" stroke="white" stroke-width="2" d="M157.3,-1151C204.4,-1151 219.28,-1151 260.71,-1151"/>
+<polygon fill="white" stroke="white" stroke-width="2" points="260.46,-1154.5 270.46,-1151 260.46,-1147.5 260.46,-1154.5"/>
+</g>
+</g>
+</svg>
