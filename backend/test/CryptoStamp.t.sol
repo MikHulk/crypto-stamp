@@ -498,6 +498,8 @@ contract CryptoStampTest is Test {
         vm.prank(author0);
         derived.accept();
         assertTrue(ContractStatus.Accepted == derived.status());
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
         assertEq(author0.balance, 4 ether);
     }
 
@@ -505,11 +507,12 @@ contract CryptoStampTest is Test {
         public withMediumContent withDerived
     {
         assertEq(derived.totalBalance(), 0);
-        assertEq(derived.totalBalance(), 0);
         assertEq(address(derived).balance, 0);
         vm.prank(author0);
         derived.accept();
         assertTrue(ContractStatus.Accepted == derived.status());
+        assertEq(derived.totalBalance(), 0);
+        assertEq(address(derived).balance, 0);
         assertEq(author0.balance, 0);
     }
 
