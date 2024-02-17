@@ -19,7 +19,7 @@ struct Content {
 }
 
 /// @title Cosigners
-/// @notice Cosigner is an address which cosign a document
+/// @notice Cosigners are addresses which cosign a document
 /// stamped by a third party.
 struct Cosigners {
     uint256 total;
@@ -27,8 +27,8 @@ struct Cosigners {
 }
 
 /// @title CryptoStamp smart contract.
-/// @notice An ERC-721 contract aimed at protecting writting with a
-/// NFT on blockchain.
+/// @notice An ERC-721 contract aimed at protecting a writtng with an
+/// NFT on the blockchain.
 /// @author Mickaël Viey
 contract CryptoStamp is ERC721, ERC721URIStorage {
     
