@@ -3,31 +3,61 @@ import json
 import os
 import sys
 
+try:
+    contract_address = sys.argv[1]
+except IndexError as e:
+    print(
+        "ERROR: you have to pass contract address as parameter",
+        file=sys.stderr
+    )
+    sys.exit(1)
 
 secret_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.secret.json')
-with open(secret_path) as f:
-    secret = json.load(f)
+try:
+    with open(secret_path) as f:
+        secret = json.load(f)
+except FileNotFoundError as e:
+    print("ERROR: ", str(e), file=sys.stderr)
+    sys.exit(2)
 
-w3 = Web3(Web3.HTTPProvider(secret['node']))
+try:
+    w3 = Web3(Web3.HTTPProvider(secret['node']))
+except KeyError:
+    print("ERROR: 'node' key not in .secret", file=sys.stderr)
+    sys.exit(3)
 
 
 if not w3.is_connected():
-    print("node not found, please verify host url", file=sys.stderr)
-    sys.exit(1)
+    print("ERROR: not connected, please verify host url", file=sys.stderr)
+    sys.exit(4)
     
 print("\t\t\t🎉 you are connected 🎊")
 
-with open(secret['contract_metadata']) as f:
-    contract_metadata = json.load(f)
-    abi = contract_metadata['abi']
+try:
+    with open(secret['contract_metadata']) as f:
+        contract_metadata = json.load(f)
+        abi = contract_metadata['abi']
+except KeyError as e:
+    print(f"ERROR: {str(e)} not in .secret", file=sys.stderr)
+    sys.exit(3)
+
 
 crypto_stamp = w3.eth.contract(
-    address=Web3.to_checksum_address("0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0"),
+    address=Web3.to_checksum_address(contract_address),
     abi=abi
 )
 
-caller = Web3.to_checksum_address(secret['author']['address'])
-private_key = secret['author']['private_key']
+try:
+    author = secret['author']
+except KeyError as e:
+    print(f"ERROR: {str(e)} key not in .secret", file=sys.stderr)
+    sys.exit(3)
+try:
+    caller = Web3.to_checksum_address(author['address'])
+    private_key = author['private_key']
+except KeyError as e:
+    print(f"ERROR: 'author'.{str(e)} key not in .secret", file=sys.stderr)
+    sys.exit(3)
 chain_id = w3.eth.chain_id
 nonce = w3.eth.get_transaction_count(caller)
 
@@ -59,11 +89,16 @@ try:
     tx_receipt = w3.eth.wait_for_transaction_receipt(send_tx)
 except Exception as e:
     print("ERROR:", str(e), file=sys.stderr)
-    sys.exit(2)
+    sys.exit(5)
+
+if not tx_receipt.logs:
+    print("ERROR: no token ID returned, check contract address", file=sys.stderr)
+    sys.exit(6)
 
 print("\tCongratulations ! 🎉 your document was saved on the blockchain 🎊")
 print("-" * 80)
 print("transaction:", tx_receipt.transactionHash.hex())
+
 print("token ID:", int(tx_receipt.logs[0].topics[-1].hex(), 16))
 print()
 
