@@ -7,8 +7,8 @@ import {
   Button
 } from '@chakra-ui/react';
 
-import { CreateTextContentView } from './components/CreateTextContentView';
-import { CreateIPFSContentView } from './components/CreateIPFSContentView';
+import CreateTextContentView from './components/CreateTextContentView';
+import CreateIPFSContentView from './components/CreateIPFSContentView';
 import { buttonStyles } from '../lib/commonStyles';
 
 const Home: NextPage = () => {

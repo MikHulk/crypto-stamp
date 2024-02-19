@@ -8,7 +8,7 @@ import {
   HStack, 
   IconButton, 
   Spinner, 
-  VStack 
+  VStack
 } from '@chakra-ui/react';
 import { DeleteIcon, EmailIcon } from '@chakra-ui/icons';
 import { NFTStorage, File, Blob } from 'nft.storage'
@@ -20,7 +20,7 @@ import { ErrorMessage, SuccessMessage, UrlDialog } from '@/components/feedback';
 import { formatBytes, formatTime } from '@/lib/format';
 
 
-export function CreateIPFSContentView(): ReactNode {
+export default function CreateIPFSContentView(): ReactNode {
 
   const { data: walletClient, isError, isLoading } = useWalletClient();
   const client = usePublicClient();
@@ -77,7 +77,7 @@ export function CreateIPFSContentView(): ReactNode {
   )
 
   function onSuccess(transacHash: `0x{string}`) {
-    client.getTransactionReceipt({ hash: transacHash })
+    client.waitForTransactionReceipt({ hash: transacHash })
       .then(buildMessage, processTrError);
   }
 

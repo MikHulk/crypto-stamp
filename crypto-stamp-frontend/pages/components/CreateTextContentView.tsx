@@ -14,7 +14,7 @@ import { stampTextContent } from '@/lib/etherUtils';
 import { SuccessMessage, ErrorMessage, UrlDialog } from '@/components/feedback';
 
 
-export function CreateTextContentView(): ReactNode {
+export default function CreateTextContentView(): ReactNode {
 
   const { data: walletClient, isError, isLoading } = useWalletClient();
   const client = usePublicClient();
@@ -33,7 +33,7 @@ export function CreateTextContentView(): ReactNode {
 
   function onSuccess(transacHash: `0x{string}`) {
     if (contentRef && contentRef.current) contentRef.current.value = "";
-    client.getTransactionReceipt({ hash: transacHash })
+    client.waitForTransactionReceipt({ hash: transacHash })
       .then(buildMessage, processTrError);
   }
 

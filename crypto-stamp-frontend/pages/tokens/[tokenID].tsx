@@ -19,7 +19,9 @@ import {
 import { buttonStyles } from '@/lib/commonStyles';
 import { ErrorMessage } from '@/components/feedback';
 import { ArrowLeftIcon } from '@chakra-ui/icons';
-import { TextView, IpfsView, UnknownTypeView } from './components';
+import TextView from './components/TextView';
+import IpfsView from './components/IpfsView';
+import UnknownTypeView from './components/UnknownTypeView';
 
 
 export default function Page(): ReactNode {
